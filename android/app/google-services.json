@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "451334523898",
+    "project_id": "safwaelbayad",
+    "storage_bucket": "safwaelbayad.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:451334523898:android:85f014752aa08caaa97243",
+        "android_client_info": {
+          "package_name": "com.Bayan.safwaelbayad"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAl7iEeFhniEYLzkQeZQQ7yF-PiR2gOa0I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
