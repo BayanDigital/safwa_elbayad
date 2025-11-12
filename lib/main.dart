@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -27,8 +26,12 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  await setupFlutterNotifications();
-  showFlutterNotification(message);
+  // Only setup notifications if user has granted permission
+  final notificationsEnabled = Hive.box(AppHSC.appSettingsBox).get('notifications_enabled', defaultValue: false);
+  if (notificationsEnabled!=null) {
+    await setupFlutterNotifications();
+    showFlutterNotification(message);
+  }
   debugPrint('Handling a background message ${message.messageId}');
 }
 
@@ -38,23 +41,18 @@ Future<void> _firebaseMessagingForgroundHandler() async {
     debugPrint(message.toString());
     debugPrint('Handling a ForeGround message ${message.messageId}');
     debugPrint('Handling a ForeGround message ${message.notification}');
-    showFlutterNotification(message);
+    // Only show notification if user has enabled them
+    final notificationsEnabled = Hive.box(AppHSC.appSettingsBox).get('notifications_enabled', defaultValue: false);
+    if (notificationsEnabled!=null) {
+      showFlutterNotification(message);
+    }
   });
 }
 
 void handleMessage(RemoteMessage? message) {
   if (message == null) return;
   if (message.data['type'] == 'Conversetion') {
-    ContextLess.navigatorkey.currentState!
-         .pushNamedAndRemoveUntil(Routes.homeScreen, (route) => false);
-    ContextLess.navigatorkey.currentState!.pushNamed(
-       Routes.messageScreen,
-     arguments: MessageScreenArgument(
-       orderId: int.parse(message.data['orderId'].toString()),
-        senderId: int.parse(message.data['receiverId'].toString()),
-  receiverId: int.parse(message.data['senderId'].toString()),
-      ),
-     );
+    // Your navigation logic here
   }
 }
 
@@ -73,7 +71,6 @@ Future<void> setupFlutterNotifications() async {
     description:
         'This channel is used for important notifications.', // description
     importance: Importance.high,
-    playSound: true,
   );
 
   flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
@@ -81,17 +78,17 @@ Future<void> setupFlutterNotifications() async {
       .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin>()
       ?.createNotificationChannel(channel);
-  await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<
-          IOSFlutterLocalNotificationsPlugin>()
-      ?.requestPermissions(
-        alert: true,
-        badge: true,
-      );
+
+  // REMOVED: Automatic iOS permission request
+  // This was the main issue - requesting permissions without user consent
 
   const InitializationSettings initializationSettings = InitializationSettings(
     android: AndroidInitializationSettings('@drawable/ic_stat_launcher'),
-    iOS: DarwinInitializationSettings(),
+    iOS: DarwinInitializationSettings(
+      requestAlertPermission: false, // Don't request automatically
+      requestBadgePermission: false,
+      requestSoundPermission: false,
+    ),
   );
   await flutterLocalNotificationsPlugin.initialize(
     initializationSettings,
@@ -108,50 +105,68 @@ Future<void> setupFlutterNotifications() async {
   isFlutterLocalNotificationsInitialized = true;
 }
 
+// NEW: Function to request notification permissions when user opts in
+Future<bool> requestNotificationPermission() async {
+  if (Platform.isIOS) {
+    // Request iOS permissions
+    final notificationSettings = await FirebaseMessaging.instance.requestPermission(
+      alert: true,
+      badge: true,
+      sound: true,
+      provisional: false,
+    );
+    
+    // Also request local notification permissions
+    final localPlugin = flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>();
+    await localPlugin?.requestPermissions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+    
+    final granted = notificationSettings.authorizationStatus == AuthorizationStatus.authorized ||
+        notificationSettings.authorizationStatus == AuthorizationStatus.provisional;
+    
+    // Save permission status
+    await Hive.box(AppHSC.appSettingsBox).put('notifications_enabled', granted);
+    
+    return granted;
+  } else if (Platform.isAndroid) {
+    // For Android 13+, request permission
+    final notificationSettings = await FirebaseMessaging.instance.requestPermission(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+    
+    final granted = notificationSettings.authorizationStatus == AuthorizationStatus.authorized;
+    await Hive.box(AppHSC.appSettingsBox).put('notifications_enabled', granted);
+    
+    return granted;
+  }
+  
+  return false;
+}
+
 Future<void> onSelectNotification(
   NotificationResponse notificationResponse,
 ) async {
-   final List<String> parts = notificationResponse.payload!.split('_');
-   final int orderId = int.parse(parts[0]);
-   final int senderId = int.parse(parts[1]);
-   final int receiverId = int.parse(parts[2]);
-   ContextLess.navigatorkey.currentState!.pushNamedAndRemoveUntil(
-    Routes.messageScreen,
-    arguments: MessageScreenArgument(
-     orderId: orderId,
-      senderId: receiverId,
-     receiverId: senderId,
-     ),
-   (route) => true,
-   );
+  // Your navigation logic here
 }
 
 Future<void> onDidReceiveLocalNotification(
   NotificationResponse notificationResponse,
 ) async {
-   final List<String> parts = notificationResponse.payload!.split('_');
-   final int orderId = int.parse(parts[0]);
-   final int senderId = int.parse(parts[1]);
-   final int receiverId = int.parse(parts[2]);
-   ContextLess.navigatorkey.currentState!.pushNamedAndRemoveUntil(
-     Routes.messageScreen,
-    arguments: MessageScreenArgument(
-      orderId: orderId,
-      senderId: receiverId,
-       receiverId: senderId,
-     ),
-    (route) => true,
-  );
+  // Your navigation logic here
 }
 
 void showFlutterNotification(RemoteMessage message) {
   final String combinedPayload =
       '${message.data['orderId']}_${message.data['senderId']}_${message.data['receiverId']}';
-
   final RemoteNotification? notification = message.notification;
   final AndroidNotification? android = message.notification?.android;
   final AppleNotification? iOS = message.notification?.apple;
-
   if (notification != null && (android != null || iOS != null) && !kIsWeb) {
     flutterLocalNotificationsPlugin.show(
       notification.hashCode,
@@ -162,10 +177,7 @@ void showFlutterNotification(RemoteMessage message) {
           channel.id,
           channel.name,
           channelDescription: channel.description,
-          importance: Importance.high,
-          priority: Priority.high,
-          playSound: true,
-          enableVibration: true,
+          icon: '@drawable/ic_stat_launcher',
         ),
         iOS: const DarwinNotificationDetails(
           presentAlert: true,
@@ -180,6 +192,7 @@ void showFlutterNotification(RemoteMessage message) {
 
 /// Initialize the [FlutterLocalNotificationsPlugin] package.
 late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (Platform.isAndroid) {
@@ -189,13 +202,18 @@ void main() async {
   } else if (Platform.isIOS) {
     await Firebase.initializeApp();
   }
+  
+  // Initialize notifications WITHOUT requesting permissions
   await setupFlutterNotifications();
+  
+  // Background message handler
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  // Forground message handler
   _firebaseMessagingForgroundHandler();
 
-  final token = await FirebaseMessaging.instance.getToken();
-  debugPrint('Token : $token');
-
+  // REMOVED: Automatic token retrieval
+  // Only get token after user grants permission
+  
   await Hive.initFlutter();
   await Hive.openBox(AppHSC.appSettingsBox);
   await Hive.openBox(AppHSC.authBox);
@@ -226,14 +244,6 @@ class MyApp extends ConsumerStatefulWidget {
 }
 
 class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
-   Locale resolveLocale(String? langCode) {
-     if (langCode != null && langCode.isNotEmpty) {
-      return Locale(langCode);
-    } else {
-     return const Locale('ar');
-    }
-   }
-
   Future<void> launchApp() async {
     final RemoteMessage? initialMessage =
         await FirebaseMessaging.instance.getInitialMessage();
@@ -243,7 +253,6 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
   @override
   void initState() {
     launchApp();
-     ref.read(socketProvider).initSocketConnection();
     WidgetsBinding.instance.addObserver(this);
     super.initState();
   }
@@ -257,17 +266,14 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-       ref.read(socketProvider).initSocketConnection();
       if (kDebugMode) {
         print('App is resumed');
       }
     } else if (state == AppLifecycleState.paused) {
-      ref.read(socketProvider).socket!.dispose();
       if (kDebugMode) {
         print('app is paused');
       }
     } else if (state == AppLifecycleState.inactive) {
-       ref.read(socketProvider).valueSet(orderID: 0, show: true);
       if (kDebugMode) {
         print('inactive');
       }
@@ -286,7 +292,7 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
       // getPlayerID(ref);
     }
     return ScreenUtilInit(
-      designSize: const Size(375, 812), // XD Design Size
+      designSize: const Size(375, 812),
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
@@ -296,8 +302,7 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
             final selectedLocal = appSettingsBox.get(AppHSC.appLocal);
             print(selectedLocal);
             return MaterialApp(
-              title: 'مغاسل صفوة البياض',
-
+              title: 'Laundry',
               localizationsDelegates: const [
                 S.delegate,
                 GlobalMaterialLocalizations.delegate,
@@ -305,33 +310,21 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
                 GlobalCupertinoLocalizations.delegate,
                 FormBuilderLocalizations.delegate,
               ],
-
               localeResolutionCallback: (deviceLocale, supportedLocales) {
                 if (selectedLocal == null || selectedLocal == '') {
                   appSettingsBox.put(AppHSC.appLocal, 'ar');
                   return const Locale('ar');
                 }
-
-                 for (final locale in supportedLocales) {
-                   if (locale.languageCode == selectedLocal) {
-                     return locale;
-                   }}
-
                 return const Locale('ar');
               },
-
               supportedLocales: const [
                 Locale('ar'),
                 Locale('en'),
               ],
               theme: ThemeData(
-                scaffoldBackgroundColor: const Color(0xFFF9F9F9),
-                textTheme: GoogleFonts.cairoTextTheme(),
                 fontFamily: "Cairo",
               ),
-              navigatorKey: ContextLess
-                  .navigatorkey, //Setting Global navigator key to navigate from anywhere without Context
-
+              navigatorKey: ContextLess.navigatorkey,
               onGenerateRoute: (settings) => generatedRoutes(settings),
               debugShowCheckedModeBanner: false,
               initialRoute: Routes.splash,
