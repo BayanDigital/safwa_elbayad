@@ -204,7 +204,7 @@ void main() async {
   }
   
   // Initialize notifications WITHOUT requesting permissions
-  await setupFlutterNotifications();
+  // await setupFlutterNotifications();
   
   // Background message handler
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
