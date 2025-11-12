@@ -50,19 +50,19 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAl7iEeFhniEYLzkQeZQQ7yF-PiR2gOa0I',
-    appId: '1:451334523898:android:85f014752aa08caaa97243',
-    messagingSenderId: '451334523898',
-    projectId: 'safwaelbayad',
-    storageBucket: 'safwaelbayad.firebasestorage.app',
+    apiKey: 'AIzaSyDoQrLCWLu4WmgnVYvQkHSXKHxhhjvqIxY',
+    appId: '1:440689124191:android:eeb2af91fd1544bbceccea',
+    messagingSenderId: '440689124191',
+    projectId: 'safwa-elbayad',
+    storageBucket: 'safwa-elbayad.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyB-Qe5LR8KiuJIXTOCIOM_OmFTKIDrbvUI',
-    appId: '1:451334523898:ios:58ce2baf6fa3db4fa97243',
-    messagingSenderId: '451334523898',
-    projectId: 'safwaelbayad',
-    storageBucket: 'safwaelbayad.firebasestorage.app',
+    apiKey: 'AIzaSyC70gYwFEeOI9Kl5ilIK0xoV79HjWnHKuA',
+    appId: '1:440689124191:ios:b2b3567d15cff5a4ceccea',
+    messagingSenderId: '440689124191',
+    projectId: 'safwa-elbayad',
+    storageBucket: 'safwa-elbayad.firebasestorage.app',
     iosBundleId: 'com.Bayan.safwaelbayad',
   );
 

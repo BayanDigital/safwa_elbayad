@@ -195,21 +195,21 @@ late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // if (Platform.isAndroid) {
-  //   await Firebase.initializeApp(
-  //     options: DefaultFirebaseOptions.currentPlatform,
-  //   );
-  // } else if (Platform.isIOS) {
-  //   await Firebase.initializeApp();
-  // }
+  if (Platform.isAndroid) {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  } else if (Platform.isIOS) {
+    await Firebase.initializeApp();
+  }
   
   // Initialize notifications WITHOUT requesting permissions
-  // await setupFlutterNotifications();
+  await setupFlutterNotifications();
   
   // Background message handler
-  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   // Forground message handler
-  // _firebaseMessagingForgroundHandler();
+  _firebaseMessagingForgroundHandler();
 
   // REMOVED: Automatic token retrieval
   // Only get token after user grants permission
@@ -252,7 +252,7 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
 
   @override
   void initState() {
-    //launchApp();
+    launchApp();
     WidgetsBinding.instance.addObserver(this);
     super.initState();
   }
