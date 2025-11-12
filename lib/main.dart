@@ -13,7 +13,6 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:laundry_customer/constants/hive_contants.dart';
-import 'package:laundry_customer/firebase_options.dart';
 import 'package:laundry_customer/generated/l10n.dart';
 import 'package:laundry_customer/providers/misc_providers.dart';
 import 'package:laundry_customer/screens/message/logic/socket.dart';
@@ -43,7 +42,7 @@ Future<void> _firebaseMessagingForgroundHandler() async {
     debugPrint('Handling a ForeGround message ${message.notification}');
     // Only show notification if user has enabled them
     final notificationsEnabled = Hive.box(AppHSC.appSettingsBox).get('notifications_enabled', defaultValue: false);
-    if (notificationsEnabled!=null) {
+    if (notificationsEnabled) {
       showFlutterNotification(message);
     }
   });
