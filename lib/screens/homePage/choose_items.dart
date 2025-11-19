@@ -44,7 +44,7 @@ class ChooseItems extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     ref.watch(servicesVariationsProvider(service.id.toString()));
     final ProducServiceVariavtionDataModel productFilter =
-    ref.watch(productsFilterProvider);
+        ref.watch(productsFilterProvider);
     if (productFilter.servieID == '') {
       Future.delayed(buildDuration).then((value) {
         ref.watch(productsFilterProvider.notifier).update((state) {
@@ -56,24 +56,24 @@ class ChooseItems extends ConsumerWidget {
     if (productFilter.variationID == '') {
       ref
           .watch(
-        servicesVariationsProvider(service.id.toString()),
-      )
+            servicesVariationsProvider(service.id.toString()),
+          )
           .maybeWhen(
-        orElse: () {},
-        loaded: (_) {
-          Future.delayed(buildDuration).then((value) {
-            ref.watch(productsFilterProvider.notifier).update((state) {
-              final List<Variant> variations = _.data!.variants!;
-              variations.sort(
+            orElse: () {},
+            loaded: (_) {
+              Future.delayed(buildDuration).then((value) {
+                ref.watch(productsFilterProvider.notifier).update((state) {
+                  final List<Variant> variations = _.data!.variants!;
+                  variations.sort(
                     (a, b) => a.id!.compareTo(b.id!),
-              );
-              return state.copyWith(
-                variationID: variations.first.id!.toString(),
-              );
-            });
-          });
-        },
-      );
+                  );
+                  return state.copyWith(
+                    variationID: variations.first.id!.toString(),
+                  );
+                });
+              });
+            },
+          );
     }
 
     ref.watch(productsProvider);
@@ -96,7 +96,6 @@ class ChooseItems extends ConsumerWidget {
         return Future.value(true);
       },
       child: ScreenWrapper(
-
         padding: EdgeInsets.zero,
         child: Stack(
           children: [
@@ -111,68 +110,65 @@ class ChooseItems extends ConsumerWidget {
                       children: [
                         AppSpacerH(44.h),
                         Padding(
-                          padding: const EdgeInsets.only(right: 25.0,bottom: 20),
+                          padding:
+                              const EdgeInsets.only(right: 25.0, bottom: 20),
                           child: Row(
                             children: [
                               GestureDetector(
-                                onTap:  () {
+                                onTap: () {
                                   context.nav.pop();
                                 },
                                 child: const Icon(
                                   Icons.arrow_back_ios_new_rounded,
                                   size: 20,
-                                  color:  AppColors.primary,
-
+                                  color: AppColors.primary,
                                 ),
                               ),
                               const AppSpacerW(10),
-
-                              Text( variant,style: AppTextDecor.osSemiBold18black.copyWith(
-                                  color: AppColors.primary,
-                                  fontWeight: FontWeight.w800
-                              ),),
+                              Text(
+                                variant,
+                                style: AppTextDecor.osSemiBold18black.copyWith(
+                                    color: AppColors.primary,
+                                    fontWeight: FontWeight.w800),
+                              ),
                             ],
                           ),
                         )
-
-
                       ],
                     ),
                   ),
-
                   Consumer(
                     builder: (context, ref, child) {
                       return ref
                           .watch(
-                        productsProvider,
-                      )
+                            productsProvider,
+                          )
                           .map(
-                        initial: (_) => const SizedBox(),
-                        loading: (_) => const LoadingWidget(),
-                        loaded: (_) => Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child:
-                          ListView.builder(
-                            padding: EdgeInsets.zero,
-                            itemCount: _.data.data!.products!.length,
-                            physics: const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemBuilder: (context, index) {
-                              final ProductData product = _.data.data!.products![index];
-                              return ChooseItemCard(
-                                product: product,
-                              );
-                            },
-                          ),
-
-
-
-                        ),
-                        error: (_) => ErrorTextWidget(error: _.error),
-                      );
+                            initial: (_) => const SizedBox(),
+                            loading: (_) => const LoadingWidget(),
+                            loaded: (_) => Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ListView.builder(
+                                padding: EdgeInsets.zero,
+                                itemCount: _.data.data!.products!.length,
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemBuilder: (context, index) {
+                                  final ProductData product =
+                                      _.data.data!.products![index];
+                                  return ChooseItemCard(
+                                    product: product,
+                                  );
+                                },
+                              ),
+                            ),
+                            error: (_) => ErrorTextWidget(error: _.error),
+                          );
                     },
                   ),
-                  const SizedBox(height: 130,),
+                  const SizedBox(
+                    height: 130,
+                  ),
                 ],
               ),
             ),
@@ -183,15 +179,15 @@ class ChooseItems extends ConsumerWidget {
                   return ValueListenableBuilder(
                     valueListenable: Hive.box(AppHSC.cartBox).listenable(),
                     builder: (
-                        BuildContext context,
-                        Box cartBox,
-                        Widget? child,
-                        ) {
+                      BuildContext context,
+                      Box cartBox,
+                      Widget? child,
+                    ) {
                       final List<CarItemHiveModel> cartItems = [];
                       for (var i = 0; i < cartBox.length; i++) {
                         final Map<String, dynamic> processedData = {};
                         final Map<dynamic, dynamic> unprocessedData =
-                        cartBox.getAt(i) as Map<dynamic, dynamic>;
+                            cartBox.getAt(i) as Map<dynamic, dynamic>;
 
                         unprocessedData.forEach((key, value) {
                           processedData[key.toString()] = value;
@@ -208,14 +204,15 @@ class ChooseItems extends ConsumerWidget {
                         height: 100.h,
                         width: 375.w,
                         decoration: BoxDecoration(
-                        color: const Color(0xFFF9F9F9),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.25),
-                            blurRadius: 15,
-                            offset: const Offset(0, -5),
-                          ),
-                        ],),
+                          color: const Color(0xFFF9F9F9),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.25),
+                              blurRadius: 15,
+                              offset: const Offset(0, -5),
+                            ),
+                          ],
+                        ),
                         padding: EdgeInsets.symmetric(horizontal: 20.w),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -226,21 +223,21 @@ class ChooseItems extends ConsumerWidget {
                               children: [
                                 Text(
                                   S.of(context).ttl,
-                                  style: AppTextDecor.osSemiBold16black.copyWith(
-                                    color: AppColors.primary,
-                                    fontWeight: FontWeight.w900
-                                  ),
+                                  style: AppTextDecor.osSemiBold16black
+                                      .copyWith(
+                                          color: AppColors.primary,
+                                          fontWeight: FontWeight.w900),
                                 ),
                                 Text(
                                   '${appSettingsBox.get('currency') ?? '\$'}${calculateTotal(cartItems).toStringAsFixed(2)}',
-                                  style: AppTextDecor.osSemiBold16black.copyWith(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 14
-                                  ),
+                                  style: AppTextDecor.osSemiBold16black
+                                      .copyWith(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 14),
                                 ),
                                 if (AppGFunctions.calculateTotal(
-                                  cartItems,
-                                ).toInt() <
+                                      cartItems,
+                                    ).toInt() <
                                     free!) ...[
                                   /*Text(
                                     'Delivery Charge is $dlvrychrg',
@@ -272,18 +269,18 @@ class ChooseItems extends ConsumerWidget {
                                       context.nav.pop();
                                       ref
                                           .watch(
-                                        homeScreenIndexProvider.notifier,
-                                      )
+                                            homeScreenIndexProvider.notifier,
+                                          )
                                           .state = 0;
                                       ref
                                           .watch(
-                                        homeScreenPageControllerProvider,
-                                      )
+                                            homeScreenPageControllerProvider,
+                                          )
                                           .animateToPage(
-                                        0,
-                                        duration: transissionDuration,
-                                        curve: Curves.easeInOut,
-                                      );
+                                            0,
+                                            duration: transissionDuration,
+                                            curve: Curves.easeInOut,
+                                          );
                                     },
                                   )
                                 else
@@ -297,7 +294,7 @@ class ChooseItems extends ConsumerWidget {
                                       ); //Stores Auth Data
 
                                       if (authBox.get(AppHSC.authToken) !=
-                                          null &&
+                                              null &&
                                           authBox.get(AppHSC.authToken) != '') {
                                         if (calculateTotal(cartItems) >=
                                             minimum!) {
@@ -335,7 +332,6 @@ class ChooseItems extends ConsumerWidget {
   }
 }
 
-
 double calculateTotal(List<CarItemHiveModel> cartItems) {
   double amount = 0;
   for (final element in cartItems) {
@@ -349,6 +345,7 @@ double calculateTotal(List<CarItemHiveModel> cartItems) {
 
   return amount;
 }
+
 class ChooseItemCard extends ConsumerStatefulWidget {
   const ChooseItemCard({
     super.key,
@@ -365,10 +362,51 @@ class _ChooseItemCardState extends ConsumerState<ChooseItemCard> {
   bool inCart = false;
   int quantity = 1;
   int? keyAt;
+  void toCart() {
+    final cartBox = Hive.box(AppHSC.cartBox);
+
+    final newCartItem = CarItemHiveModel(
+      productsId: widget.product.id!,
+      productsName: widget.product.nameBn.toString(),
+      productsImage: widget.product.imagePath!,
+      productsQTY: quantity,
+      unitPrice: widget.product.currentPrice!.toDouble(),
+      serviceName: widget.product.service!.name!,
+    );
+
+    bool itemExists = false;
+
+    for (int i = 0; i < cartBox.length; i++) {
+      final itemRaw = cartBox.getAt(i) as Map<dynamic, dynamic>;
+      final itemMap =
+          itemRaw.map((key, value) => MapEntry(key.toString(), value));
+      final existingItem = CarItemHiveModel.fromMap(itemMap);
+
+      if (existingItem.productsId == newCartItem.productsId &&
+          existingItem.subproductsId == newCartItem.subproductsId) {
+        final updatedItem = existingItem.copyWith(
+          productsQTY: existingItem.productsQTY + quantity,
+        );
+        cartBox.putAt(i, updatedItem.toMap());
+        itemExists = true;
+        break;
+      }
+    }
+
+    if (!itemExists) {
+      cartBox.add(newCartItem.toMap());
+    }
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('تمت إضافة المنتج إلى السلة'),
+        duration: Duration(seconds: 2),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-
     final favorites = ref.watch(favoritesProvider);
     num unitPrice = widget.product.currentPrice ?? 0;
     num totalPrice = unitPrice * quantity;
@@ -384,7 +422,7 @@ class _ChooseItemCardState extends ConsumerState<ChooseItemCard> {
             for (int i = 0; i < cartsBox.length; i++) {
               final Map<String, dynamic> processedData = {};
               final Map<dynamic, dynamic> unprocessedData =
-              cartsBox.getAt(i) as Map<dynamic, dynamic>;
+                  cartsBox.getAt(i) as Map<dynamic, dynamic>;
               unprocessedData.forEach((key, value) {
                 processedData[key.toString()] = value;
               });
@@ -397,62 +435,23 @@ class _ChooseItemCardState extends ConsumerState<ChooseItemCard> {
               }
             }
 
-            return
-              InkWell(
-                onTap: ()
-               {
-                   final cartBox = Hive.box(AppHSC.cartBox);
-
-                   final newCartItem = CarItemHiveModel(
-                     productsId: widget.product.id!,
-                     productsName: widget.product.nameBn.toString(),
-                     productsImage: widget.product.imagePath!,
-                     productsQTY: quantity,
-                     unitPrice: widget.product.currentPrice!.toDouble(),
-                     serviceName: widget.product.service!.name!,
-                   );
-
-                   bool itemExists = false;
-
-                   for (int i = 0; i < cartBox.length; i++) {
-                     final itemRaw = cartBox.getAt(i) as Map<dynamic, dynamic>;
-                     final itemMap = itemRaw.map((key, value) => MapEntry(key.toString(), value));
-                     final existingItem = CarItemHiveModel.fromMap(itemMap);
-
-                     if (existingItem.productsId == newCartItem.productsId &&
-                         existingItem.subproductsId == newCartItem.subproductsId) {
-                       final updatedItem = existingItem.copyWith(
-                         productsQTY:existingItem.productsQTY + quantity,
-                       );
-                       cartBox.putAt(i, updatedItem.toMap());
-                       itemExists = true;
-                       break;
-                     }
-                   }
-
-                   if (!itemExists) {
-                     cartBox.add(newCartItem.toMap());
-                   }
-                   context.nav.push(
-                     MaterialPageRoute(
-                       builder: (context) => MyCartTab(),
-                     ),
-                   );
-                   ScaffoldMessenger.of(context).showSnackBar(
-                     const SnackBar(
-                       content: Text('تمت إضافة المنتج إلى السلة'),
-                       duration: Duration(seconds: 2),
-                     ),
-                   );
-               },
-                child:
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15.0,vertical: 5),
+            return InkWell(
+                onTap: () {
+                  context.nav.push(
+                    MaterialPageRoute(
+                      builder: (context) => MyCartTab(),
+                    ),
+                  );
+                },
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5),
                   child: Card(
                     elevation: 2,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
-                      side: const BorderSide(color: AppColors.primary, width: 1),
+                      side:
+                          const BorderSide(color: AppColors.primary, width: 1),
                     ),
                     color: const Color(0xFFF9F9F9),
                     child: Row(
@@ -465,18 +464,17 @@ class _ChooseItemCardState extends ConsumerState<ChooseItemCard> {
                             height: 80,
                             fit: BoxFit.cover,
                             errorBuilder: (context, error, stackTrace) =>
-                            const Icon(Icons.image),
+                                const Icon(Icons.image),
                           ),
                         ),
-
                         const SizedBox(width: 12),
-
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                widget.product.nameBn?.toString() ?? 'اسم المنتج',
+                                widget.product.nameBn?.toString() ??
+                                    'اسم المنتج',
                                 style: const TextStyle(
                                   fontSize: 12,
                                   color: AppColors.primary,
@@ -496,9 +494,7 @@ class _ChooseItemCardState extends ConsumerState<ChooseItemCard> {
                             ],
                           ),
                         ),
-
                         const SizedBox(width: 12),
-
                         Column(
                           children: [
                             Row(
@@ -509,6 +505,7 @@ class _ChooseItemCardState extends ConsumerState<ChooseItemCard> {
                                       setState(() {
                                         quantity--;
                                       });
+                                      toCart();
                                     }
                                   },
                                   icon: const Icon(Icons.remove_circle_outline),
@@ -523,6 +520,7 @@ class _ChooseItemCardState extends ConsumerState<ChooseItemCard> {
                                     setState(() {
                                       quantity++;
                                     });
+                                    toCart();
                                   },
                                   icon: const Icon(Icons.add_circle_outline),
                                   color: Colors.teal,
@@ -534,16 +532,13 @@ class _ChooseItemCardState extends ConsumerState<ChooseItemCard> {
                       ],
                     ),
                   ),
-                )
-              );
+                ));
           },
         );
       },
     );
   }
 }
-
-
 
 class IncDecButton extends StatelessWidget {
   const IncDecButton({

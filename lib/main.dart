@@ -302,7 +302,7 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
             final selectedLocal = appSettingsBox.get(AppHSC.appLocal);
             print(selectedLocal);
             return MaterialApp(
-              title: 'Laundry',
+              title: 'صفوة البياض',
               localizationsDelegates: const [
                 S.delegate,
                 GlobalMaterialLocalizations.delegate,
