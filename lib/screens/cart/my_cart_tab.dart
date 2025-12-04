@@ -43,9 +43,9 @@ class MyCartTab extends ConsumerWidget {
     ref.watch(settingsProvider).whenOrNull(
       loaded: (data) {
         final String total = (AppGFunctions.calculateTotal(
-          cartItems,
-        ) +
-            data.data!.deliveryCost!)
+                  cartItems,
+                ) +
+                data.data!.deliveryCost!)
             .toStringAsFixed(2);
         minimum = data.data!.minimumCost;
         dlvrychrg = data.data!.deliveryCost!.toDouble();
@@ -55,8 +55,7 @@ class MyCartTab extends ConsumerWidget {
     );
     ref.watch(couponProvider);
     ref.watch(discountAmountProvider);
-    return
-      SingleChildScrollView(
+    return SingleChildScrollView(
       child: SizedBox(
         height: 812.h,
         width: 375.w,
@@ -69,34 +68,31 @@ class MyCartTab extends ConsumerWidget {
               child: Column(
                 children: [
                   AppSpacerH(42.h),
-                 Padding(
+                  Padding(
                       padding: const EdgeInsets.only(right: 25),
-                      child:
-                      Row(
+                      child: Row(
                         children: [
                           GestureDetector(
-                            onTap:  () {
+                            onTap: () {
                               context.nav.pop();
                             },
                             child: const Icon(
                               Icons.arrow_back_ios_new_rounded,
                               size: 20,
-                              color:  AppColors.primary,
-
+                              color: AppColors.primary,
                             ),
                           ),
                           const AppSpacerW(10),
-
-                          Text( S.of(context).myCart,style: AppTextDecor.osSemiBold18black.copyWith(
-                              color: AppColors.primary
-                          ),),
+                          Text(
+                            S.of(context).myCart,
+                            style: AppTextDecor.osSemiBold18black
+                                .copyWith(color: AppColors.primary),
+                          ),
                         ],
-                  ))
-
+                      ))
                 ],
               ),
             ),
-
             Expanded(
               child: Container(
                 height: 724.h,
@@ -106,313 +102,361 @@ class MyCartTab extends ConsumerWidget {
                   builder: (BuildContext context, Box authbox, Widget? child) {
                     return authbox.get(AppHSC.authToken) != null
                         ? SizedBox(
-                      height: 606.h,
-                      width: 335.w,
-                      child: ValueListenableBuilder(
-                        valueListenable:
-                        Hive.box(AppHSC.cartBox).listenable(),
-                        builder: (
-                            BuildContext context,
-                            Box cartBox,
-                            Widget? child,
-                            ) {
-                          final List<CarItemHiveModel> cartItems = [];
-                          for (var i = 0; i < cartBox.length; i++) {
-                            final Map<String, dynamic> processedData = {};
-                            final Map<dynamic, dynamic> unprocessedData =
-                            cartBox.getAt(i) as Map<dynamic, dynamic>;
+                            height: 606.h,
+                            width: 335.w,
+                            child: ValueListenableBuilder(
+                              valueListenable:
+                                  Hive.box(AppHSC.cartBox).listenable(),
+                              builder: (
+                                BuildContext context,
+                                Box cartBox,
+                                Widget? child,
+                              ) {
+                                final List<CarItemHiveModel> cartItems = [];
+                                for (var i = 0; i < cartBox.length; i++) {
+                                  final Map<String, dynamic> processedData = {};
+                                  final Map<dynamic, dynamic> unprocessedData =
+                                      cartBox.getAt(i) as Map<dynamic, dynamic>;
 
-                            unprocessedData.forEach((key, value) {
-                              processedData[key.toString()] = value;
-                            });
-                            cartItems.add(
-                              CarItemHiveModel.fromMap(
-                                processedData,
-                              ),
-                            );
-                          }
-
-                          ref.watch(couponProvider).maybeWhen(
-                            orElse: () {},
-                            error: (_) {
-                              EasyLoading.showError(_);
-                              ref.refresh(couponProvider);
-                            },
-                            loaded: (_) {
-                              if (_.data?.coupon?.discount != null) {
-                                if (_.data!.coupon!.type!
-                                    .toLowerCase() ==
-                                    "percent".toLowerCase()) {
-                                  final double subToatalAmount =
-                                  calculateTotal(
-                                    cartItems,
+                                  unprocessedData.forEach((key, value) {
+                                    processedData[key.toString()] = value;
+                                  });
+                                  cartItems.add(
+                                    CarItemHiveModel.fromMap(
+                                      processedData,
+                                    ),
                                   );
-                                  Future.delayed(buildDuration)
-                                      .then((value) {
-                                    ref
-                                        .watch(
-                                      discountAmountProvider
-                                          .notifier,
-                                    )
-                                        .state =
-                                        subToatalAmount *
-                                            (_.data!.coupon!
-                                                .discount! /
-                                                100);
-                                  });
-                                } else {
-                                  Future.delayed(buildDuration)
-                                      .then((value) {
-                                    ref
-                                        .watch(
-                                      discountAmountProvider
-                                          .notifier,
-                                    )
-                                        .state =
-                                        _.data!.coupon!.discount!
-                                            .toDouble();
-                                  });
                                 }
-                              }
-                            },
-                          );
-                          return cartItems.isNotEmpty
-                              ? ListView(
-                            padding: EdgeInsets.zero,
-                            children: [
-                              ...cartItems.map(
-                                    (e) => Column(
-                                      children: [
 
-                                        MyCartItemImageCard(
-                                                                          carItemHiveModel: e,
-                                                                        ),
-
-                                      ],
-                                    ),
-                              ),
-
-                              AppSpacerH(25.h),
-
-                              Card(
-                               elevation:5,
-                                color:Colors.white,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 12.0,vertical: 6),
-                                      child: Text(
-                                        S.of(context).odrdsmry,
-                                        style:
-                                        AppTextDecor.osSemiBold16black.copyWith(color: AppColors.primary,fontWeight: FontWeight.w700),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 12.0,vertical: 6),
-                                      child: Table(
+                                ref.watch(couponProvider).maybeWhen(
+                                      orElse: () {},
+                                      error: (_) {
+                                        EasyLoading.showError(_);
+                                        ref.refresh(couponProvider);
+                                      },
+                                      loaded: (_) {
+                                        if (_.data?.coupon?.discount != null) {
+                                          if (_.data!.coupon!.type!
+                                                  .toLowerCase() ==
+                                              "percent".toLowerCase()) {
+                                            final double subToatalAmount =
+                                                calculateTotal(
+                                              cartItems,
+                                            );
+                                            Future.delayed(buildDuration)
+                                                .then((value) {
+                                              ref
+                                                      .watch(
+                                                        discountAmountProvider
+                                                            .notifier,
+                                                      )
+                                                      .state =
+                                                  subToatalAmount *
+                                                      (_.data!.coupon!
+                                                              .discount! /
+                                                          100);
+                                            });
+                                          } else {
+                                            Future.delayed(buildDuration)
+                                                .then((value) {
+                                              ref
+                                                      .watch(
+                                                        discountAmountProvider
+                                                            .notifier,
+                                                      )
+                                                      .state =
+                                                  _.data!.coupon!.discount!
+                                                      .toDouble();
+                                            });
+                                          }
+                                        }
+                                      },
+                                    );
+                                return cartItems.isNotEmpty
+                                    ? ListView(
+                                        padding: EdgeInsets.zero,
                                         children: [
-                                          AppGFunctions.tableTextRow(
-                                            title: S.of(context).sbttl,
-                                            data: '${appSettingsBox.get('currency') ?? '\$'}${calculateTotal(cartItems).toStringAsFixed(2)}',
-                                          ),
-                                          AppGFunctions.tableTextRow(
-                                            title: S.of(context).dlvrychrg,
-                                            data: '${appSettingsBox.get('currency') ?? '\$'}${dlvrychrg!.toStringAsFixed(2)}',
-                                          ),
-
-                                        ],
-                                      ),
-                                    ),
-
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 12.0,vertical: 8),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            S.of(context).ttl,
-                                            style: AppTextDecor.osBold14black.copyWith(
-                                              color: AppColors.primary,
-                                              fontWeight: FontWeight.w900
+                                          ...cartItems.map(
+                                            (e) => Column(
+                                              children: [
+                                                MyCartItemImageCard(
+                                                  carItemHiveModel: e,
+                                                ),
+                                              ],
                                             ),
                                           ),
-
-                                        ],
-                                      ),
-                                    ),
-                                    Align(
-                                      alignment:Alignment.topLeft,
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 12.0,vertical: 8),                                        child: Text(
-                                          '${appSettingsBox.get('currency') ?? '\$'}${(AppGFunctions.calculateTotal(cartItems) + dlvrychrg! - ref.watch(discountAmountProvider)).toStringAsFixed(2)}',
-                                          style: AppTextDecor.osBold14black.copyWith(color: AppColors.secondaryColor),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              AppSpacerH(25.h),
-
-                              Column(
-                                children: [
-                                  Container(
-
-                                    height: 104.h,
-                                    width: 350.w,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                    child: SizedBox(
-                                      height: 50,
-                                      width: 350.w,
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-
-                                          Column(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: [
-                                              if (calculateTotal(cartItems) < 200)
-                                                Text(
-                                                  '${S.of(context).mnmmordramnt} ${appSettingsBox.get('currency') ?? '\$'}${AppGFunctions.convertToFixedTwo(minimum!)}',
-                                                  style: AppTextDecor.osRegular12red,
+                                          AppSpacerH(25.h),
+                                          Card(
+                                            elevation: 5,
+                                            color: Colors.white,
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      horizontal: 12.0,
+                                                      vertical: 6),
+                                                  child: Text(
+                                                    S.of(context).odrdsmry,
+                                                    style: AppTextDecor
+                                                        .osSemiBold16black
+                                                        .copyWith(
+                                                            color: AppColors
+                                                                .primary,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w700),
+                                                  ),
                                                 ),
-
-                                              ref.watch(updateOrderProvider).map(
-                                                initial: (_) {
-                                                  return orderId != ''
-                                                      ? AppTextButton(
-                                                    height: 45.h,
-                                                    width: 300.w,
-                                                    title: S.of(context).updateproduct,
-                                                    onTap: () {
-                                                      updateOrderProduct(
-                                                        ref: ref,
-                                                        orderId: orderId,
-                                                        cartItems: cartItems,
-                                                        context: context,
-                                                      );
-                                                    },
-                                                  )
-                                                      : Row(
+                                                Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      horizontal: 12.0,
+                                                      vertical: 6),
+                                                  child: Table(
+                                                    children: [
+                                                      AppGFunctions
+                                                          .tableTextRow(
+                                                        title:
+                                                            S.of(context).sbttl,
+                                                        data:
+                                                            '${appSettingsBox.get('currency') ?? '\$'}${calculateTotal(cartItems).toStringAsFixed(2)}',
+                                                      ),
+                                                      AppGFunctions
+                                                          .tableTextRow(
+                                                        title: S
+                                                            .of(context)
+                                                            .dlvrychrg,
+                                                        data:
+                                                            '${appSettingsBox.get('currency') ?? '\$'}${dlvrychrg!.toStringAsFixed(2)}',
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      horizontal: 12.0,
+                                                      vertical: 8),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                        S.of(context).ttl,
+                                                        style: AppTextDecor
+                                                            .osBold14black
+                                                            .copyWith(
+                                                                color: AppColors
+                                                                    .primary,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w900),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                Align(
+                                                  alignment: Alignment.topLeft,
+                                                  child: Padding(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 12.0,
+                                                        vertical: 8),
+                                                    child: Text(
+                                                      '${appSettingsBox.get('currency') ?? '\$'}${(AppGFunctions.calculateTotal(cartItems) + dlvrychrg! - ref.watch(discountAmountProvider)).toStringAsFixed(2)}',
+                                                      style: AppTextDecor
+                                                          .osBold14black
+                                                          .copyWith(
+                                                              color: AppColors
+                                                                  .secondaryColor),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          AppSpacerH(25.h),
+                                          Column(
+                                            children: [
+                                              Container(
+                                                height: 104.h,
+                                                width: 350.w,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
+                                                ),
+                                                child: SizedBox(
+                                                  height: 50,
+                                                  width: 350.w,
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
                                                         children: [
+                                                          if (calculateTotal(
+                                                                  cartItems) <
+                                                              200)
+                                                            Text(
+                                                              '${S.of(context).mnmmordramnt} ${appSettingsBox.get('currency') ?? '\$'}${AppGFunctions.convertToFixedTwo(minimum!)}',
+                                                              style: AppTextDecor
+                                                                  .osRegular12red,
+                                                            ),
+                                                          ref
+                                                              .watch(
+                                                                  updateOrderProvider)
+                                                              .map(
+                                                                initial: (_) {
+                                                                  return orderId !=
+                                                                          ''
+                                                                      ? AppTextButton(
+                                                                          height:
+                                                                              45.h,
+                                                                          width:
+                                                                              300.w,
+                                                                          title: S
+                                                                              .of(context)
+                                                                              .updateproduct,
+                                                                          onTap:
+                                                                              () {
+                                                                            updateOrderProduct(
+                                                                              ref: ref,
+                                                                              orderId: orderId,
+                                                                              cartItems: cartItems,
+                                                                              context: context,
+                                                                            );
+                                                                          },
+                                                                        )
+                                                                      : Row(
+                                                                          children: [
+                                                                            Card(
+                                                                              elevation: 5,
+                                                                              child: Center(
+                                                                                child: AppTextButton(
+                                                                                  fontSize: 18,
+                                                                                  title: S.of(context).chckout,
+                                                                                  height: 45.h,
+                                                                                  width: 320.w,
+                                                                                  onTap: () {
+                                                                                    final Box authBox = Hive.box(AppHSC.authBox);
+                                                                                    final double total = calculateTotal(cartItems);
 
-                                                          Card(
-                                                                                                              elevation: 5,
-                                                                                                              child: Center(
-                                                          child: AppTextButton(
-                                                            fontSize: 18,
-                                                            title: S.of(context).chckout,
-                                                            height: 45.h,
-                                                            width: 320.w,
-                                                            onTap: () {
-                                                              final Box authBox = Hive.box(AppHSC.authBox);
-                                                              final double total = calculateTotal(cartItems);
-
-                                                              if (authBox.get(AppHSC.authToken) != null &&
-                                                                  authBox.get(AppHSC.authToken) != '') {
-                                                                if (total >= 200) {
-                                                                  ref.refresh(addresListProvider);
-                                                                  context.nav.pushNamed(Routes.checkOutScreen);
-                                                                } else {
-                                                                  showDialog(
-                                                                    context: context,
-                                                                    builder: (BuildContext context) {
-                                                                      return AlertDialog(
-                                                                        title: const Text('تنبيه'),
-                                                                        content: Text(
-                                                                          '${S.of(context).mnmmordramnt} ${appSettingsBox.get('currency') ?? '\$'}${AppGFunctions.convertToFixedTwo(minimum!)}',
-                                                                        ),
-                                                                        actions: [
-                                                                          TextButton(
-                                                                            onPressed: () {
-                                                                              context.nav.pushNamed(Routes.homeScreen);
-                                                                            },
-                                                                            child: const Text(' الرجاء زياده المنتجات '),
-                                                                          ),
-                                                                        ],
-                                                                      );
-                                                                    },
-                                                                  );
-                                                                }
-                                                              } else {
-                                                                context.nav.pushNamed(Routes.loginScreen);
-                                                              }
-                                                            },
-                                                          ),
-                                                                                                              ),
-                                                                                                            ),
+                                                                                    if (authBox.get(AppHSC.authToken) != null && authBox.get(AppHSC.authToken) != '') {
+                                                                                      if (total >= 200) {
+                                                                                        ref.refresh(addresListProvider);
+                                                                                        context.nav.pushNamed(Routes.checkOutScreen);
+                                                                                      } else {
+                                                                                        showDialog(
+                                                                                          context: context,
+                                                                                          builder: (BuildContext context) {
+                                                                                            return AlertDialog(
+                                                                                              title: const Text('تنبيه'),
+                                                                                              content: Text(
+                                                                                                '${S.of(context).mnmmordramnt} ${appSettingsBox.get('currency') ?? '\$'}${AppGFunctions.convertToFixedTwo(minimum!)}',
+                                                                                              ),
+                                                                                              actions: [
+                                                                                                TextButton(
+                                                                                                  onPressed: () {
+                                                                                                    context.nav.pushNamed(Routes.homeScreen);
+                                                                                                  },
+                                                                                                  child: const Text(' الرجاء زياده المنتجات '),
+                                                                                                ),
+                                                                                              ],
+                                                                                            );
+                                                                                          },
+                                                                                        );
+                                                                                      }
+                                                                                    } else {
+                                                                                      context.nav.pushNamed(Routes.loginScreen);
+                                                                                    }
+                                                                                  },
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        );
+                                                                },
+                                                                loading: (_) =>
+                                                                    const LoadingWidget(),
+                                                                loaded: (_) {
+                                                                  print(
+                                                                      'loaded');
+                                                                  return const Text(
+                                                                      '');
+                                                                },
+                                                                error: (_) {
+                                                                  print(
+                                                                      'error');
+                                                                  return const Text(
+                                                                      'error');
+                                                                },
+                                                              ),
                                                         ],
-                                                      );
-                                                },
-                                                loading: (_) => const LoadingWidget(),
-                                                loaded: (_) {
-                                                  print('loaded');
-                                                  return const Text('');
-                                                },
-                                                error: (_) {
-                                                  print('error');
-                                                  return const Text('error');
-                                                },
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
                                               ),
                                             ],
                                           ),
+                                          if (orderId != '')
+                                            AppSpacerH(20.h)
+                                          else
+                                            const SizedBox(),
+                                          if (orderId != '')
+                                            AppTextButton(
+                                              height: 45.h,
+                                              width: 164.w,
+                                              title: S.of(context).addmore,
+                                              onTap: () {
+                                                ref
+                                                    .watch(
+                                                      homeScreenPageControllerProvider,
+                                                    )
+                                                    .animateToPage(
+                                                      4,
+                                                      duration:
+                                                          transissionDuration,
+                                                      curve: Curves.easeInOut,
+                                                    );
+                                                ref
+                                                    .watch(
+                                                      homeScreenIndexProvider
+                                                          .notifier,
+                                                    )
+                                                    .state = 4;
+                                              },
+                                            )
+                                          else
+                                            const SizedBox(),
+                                          AppSpacerH(90.h),
                                         ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              if (orderId != '')
-                                AppSpacerH(20.h)
-                              else
-                                const SizedBox(),
-                              if (orderId != '')
-                                AppTextButton(
-                                  height: 45.h,
-                                  width: 164.w,
-                                  title: S.of(context).addmore,
-                                  onTap: () {
-                                    ref
-                                        .watch(
-                                      homeScreenPageControllerProvider,
-                                    )
-                                        .animateToPage(
-                                      4,
-                                      duration:
-                                      transissionDuration,
-                                      curve: Curves.easeInOut,
-                                    );
-                                    ref
-                                        .watch(
-                                      homeScreenIndexProvider
-                                          .notifier,
-                                    )
-                                        .state = 4;
-                                  },
-                                )
-                              else
-                                const SizedBox(),
-                              AppSpacerH(90.h),
-                            ],
+                                      )
+                                    : Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Image.asset(
+                                              "assets/images/no_cart.png"),
+                                          AppSpacerH(50.h),
+                                          MessageTextWidget(
+                                            msg: S.of(context).noitmcrt,
+                                          )
+                                        ],
+                                      );
+                              },
+                            ),
                           )
-                              :
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset("assets/images/no_cart.png"),
-                              AppSpacerH(50.h),
-                              MessageTextWidget(
-                              msg: S.of(context).noitmcrt,
-                          )
-                            ],
-                          );
-                        },
-                      ),
-                    )
                         : const NotSignedInwidget();
                   },
                 ),
@@ -441,30 +485,30 @@ class MyCartTab extends ConsumerWidget {
     }
     ref
         .read(
-      orderRepoProvider,
-    )
+          orderRepoProvider,
+        )
         .updateOrder(
-      products,
-      orderId,
-    )
+          products,
+          orderId,
+        )
         .then((value) {
       EasyLoading.showSuccess(S.of(context).orderupdatesuccmes);
       ref.read(orderIdProvider.notifier).state = '';
       cartBox.clear();
       ref
           .watch(
-        homeScreenIndexProvider.notifier,
-      )
+            homeScreenIndexProvider.notifier,
+          )
           .state = 1;
       ref
           .watch(
-        homeScreenPageControllerProvider,
-      )
+            homeScreenPageControllerProvider,
+          )
           .animateToPage(
-        1,
-        duration: transissionDuration,
-        curve: Curves.easeInOut,
-      );
+            1,
+            duration: transissionDuration,
+            curve: Curves.easeInOut,
+          );
     });
   }
 

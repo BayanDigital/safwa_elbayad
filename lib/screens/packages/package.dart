@@ -135,7 +135,7 @@ class PackageScreen extends ConsumerWidget {
                                           child: Padding(
                                             padding: const EdgeInsets.symmetric(horizontal: 28.0,vertical: 10),
                                             child: Text(
-                                              pkg.name,
+                                              pkg.name??'',
                                               style: AppTextDecor.osBold16black
                                                   .copyWith(
                                                 fontWeight: FontWeight.w700,
@@ -147,7 +147,7 @@ class PackageScreen extends ConsumerWidget {
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Text(
-                                            pkg.desc,
+                                            pkg.desc??'',
                                             textAlign: TextAlign.center,
                                             style: AppTextDecor.osBold20Black
                                                 .copyWith(
@@ -209,7 +209,7 @@ class PackageScreen extends ConsumerWidget {
                                               ),
                                             ),
                                             Text(
-                                              pkg.price,
+                                              pkg.price.toString(),
                                               style: const TextStyle(
                                                 fontSize: 16,
                                                 color: Colors.white,

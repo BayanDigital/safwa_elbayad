@@ -23,41 +23,49 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "abt": MessageLookupByLibrary.simpleMessage("من نحن"),
-    "splashTitle": MessageLookupByLibrary.simpleMessage("صفوة البياض .. النظافة تبدأ من هنا"),
-    "wats": MessageLookupByLibrary.simpleMessage("تواصل عبر الواتساب"),
-    "noNotification": MessageLookupByLibrary.simpleMessage("لا يوجد إشعارات"),
-    "whatSearch": MessageLookupByLibrary.simpleMessage(" ما الذي تبحث عنه ؟"),
-    "search": MessageLookupByLibrary.simpleMessage("البحث"),
-      "profileph": MessageLookupByLibrary.simpleMessage( "تحميل صورة الملف الشخصي"),
-        "redFlower":MessageLookupByLibrary.simpleMessage("باقة ورد حمراء مبهرة"),
+        "splashTitle": MessageLookupByLibrary.simpleMessage(
+            "صفوة البياض .. النظافة تبدأ من هنا"),
+        "wats": MessageLookupByLibrary.simpleMessage("تواصل عبر الواتساب"),
+        "noNotification":
+            MessageLookupByLibrary.simpleMessage("لا يوجد إشعارات"),
+        "whatSearch":
+            MessageLookupByLibrary.simpleMessage(" ما الذي تبحث عنه ؟"),
+        "search": MessageLookupByLibrary.simpleMessage("البحث"),
+        "profileph":
+            MessageLookupByLibrary.simpleMessage("تحميل صورة الملف الشخصي"),
+        "redFlower":
+            MessageLookupByLibrary.simpleMessage("باقة ورد حمراء مبهرة"),
         "abtus": MessageLookupByLibrary.simpleMessage("المزيد عنا"),
-      "cprofile": MessageLookupByLibrary.simpleMessage("تغيير كلمه المرور "),
+        "cprofile": MessageLookupByLibrary.simpleMessage("تغيير كلمه المرور "),
         "acceptTermsAndConditions": MessageLookupByLibrary.simpleMessage(
           "يجب عليك القبول بالشروط والاحكام",
         ),
-    "shpngadr": MessageLookupByLibrary.simpleMessage("بيانات العميل"),
-    "price": MessageLookupByLibrary.simpleMessage("السعر"),
-    "subNow": MessageLookupByLibrary.simpleMessage("اشترك الأن"),
-
-    "flowerPerfect": MessageLookupByLibrary.simpleMessage("باقة زهور فاخرة"),
-      "Valentine": MessageLookupByLibrary.simpleMessage("باقات لعيد الحب"),
-    "cts": MessageLookupByLibrary.simpleMessage("الأقسام"),
-    "bet": MessageLookupByLibrary.simpleMessage("منزل رقم"),
-    "newBorn": MessageLookupByLibrary.simpleMessage("باقة زهور لمولود جديد"),
-      "specialFlower": MessageLookupByLibrary.simpleMessage("أقسام الزهور المميزة"),
-    "best seller": MessageLookupByLibrary.simpleMessage("الاكثر مبيعا"),
-    "deleteAccountTitle": MessageLookupByLibrary.simpleMessage("حذف الحساب"),
-    "deleteAccountPrompt": MessageLookupByLibrary.simpleMessage("هل تريد حذف حسابك؟"),
-    "cancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
-    "delete": MessageLookupByLibrary.simpleMessage("حذف"),
-
-    "actvordr": MessageLookupByLibrary.simpleMessage("الطلب الحالي"),
+        "shpngadr": MessageLookupByLibrary.simpleMessage("بيانات العميل"),
+        "price": MessageLookupByLibrary.simpleMessage("السعر"),
+        "subNow": MessageLookupByLibrary.simpleMessage("اشترك الأن"),
+        "flowerPerfect":
+            MessageLookupByLibrary.simpleMessage("باقة زهور فاخرة"),
+        "Valentine": MessageLookupByLibrary.simpleMessage("باقات لعيد الحب"),
+        "cts": MessageLookupByLibrary.simpleMessage("الأقسام"),
+        "bet": MessageLookupByLibrary.simpleMessage("منزل رقم"),
+        "newBorn":
+            MessageLookupByLibrary.simpleMessage("باقة زهور لمولود جديد"),
+        "specialFlower":
+            MessageLookupByLibrary.simpleMessage("أقسام الزهور المميزة"),
+        "best seller": MessageLookupByLibrary.simpleMessage("الاكثر مبيعا"),
+        "deleteAccountTitle":
+            MessageLookupByLibrary.simpleMessage("حذف الحساب"),
+        "deleteAccountPrompt":
+            MessageLookupByLibrary.simpleMessage("هل تريد حذف حسابك؟"),
+        "cancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
+        "delete": MessageLookupByLibrary.simpleMessage("حذف"),
+        "actvordr": MessageLookupByLibrary.simpleMessage("الطلب الحالي"),
         "adadres": MessageLookupByLibrary.simpleMessage("اإضافة عنوان"),
         "add": MessageLookupByLibrary.simpleMessage("اضافة"),
-    "offer": MessageLookupByLibrary.simpleMessage("الباقات"),
-    "deleteAccountWarning": MessageLookupByLibrary.simpleMessage("هل أنت متأكد من رغبتك في حذف حسابك؟ سيتم فقدان جميع بياناتك وسجل الطلبات، ولا يمكن التراجع عن هذه الخطوة."),
-
-    "addadrs": MessageLookupByLibrary.simpleMessage("اإضافه عنوان"),
+        "offer": MessageLookupByLibrary.simpleMessage("الباقات"),
+        "deleteAccountWarning": MessageLookupByLibrary.simpleMessage(
+            "هل أنت متأكد من رغبتك في حذف حسابك؟ سيتم فقدان جميع بياناتك وسجل الطلبات، ولا يمكن التراجع عن هذه الخطوة."),
+        "addadrs": MessageLookupByLibrary.simpleMessage("اإضافه عنوان"),
         "additm": MessageLookupByLibrary.simpleMessage("اضافة عنصر"),
         "addmore": MessageLookupByLibrary.simpleMessage("أضف المزيد"),
         "addnwadrs": MessageLookupByLibrary.simpleMessage("اضافة عنوان جديد"),
@@ -117,8 +125,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "flat": MessageLookupByLibrary.simpleMessage("رقم الشقة"),
         "forgotPassword":
             MessageLookupByLibrary.simpleMessage("هل نسيت كلمة المرور؟"),
-    "forgotpassword":
-    MessageLookupByLibrary.simpleMessage("هل نسيت كلمة المرور"),
+        "forgotpassword":
+            MessageLookupByLibrary.simpleMessage("هل نسيت كلمة المرور"),
         "frstnm": MessageLookupByLibrary.simpleMessage("الاسم الاول"),
         "fullName": MessageLookupByLibrary.simpleMessage("الاسم بالكامل"),
         "gndr": MessageLookupByLibrary.simpleMessage("النوع"),
@@ -171,8 +179,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "nosrvcavlbl": MessageLookupByLibrary.simpleMessage("الخدمة غير متاحة"),
         "ntfctn": MessageLookupByLibrary.simpleMessage("إشعار"),
         "ntfctns": MessageLookupByLibrary.simpleMessage("إشعارات"),
-    "fav": MessageLookupByLibrary.simpleMessage("المفضله"),
-      "cart": MessageLookupByLibrary.simpleMessage("الطلبات"),
+        "fav": MessageLookupByLibrary.simpleMessage("المفضله"),
+        "cart": MessageLookupByLibrary.simpleMessage("الطلبات"),
         "odrdsmry": MessageLookupByLibrary.simpleMessage("ملخص الطلب"),
         "okay": MessageLookupByLibrary.simpleMessage("حسنأً"),
         "orderupdatesuccmes":
@@ -238,8 +246,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "showmore": MessageLookupByLibrary.simpleMessage("أظهر المزيد"),
         "shpngadrs": MessageLookupByLibrary.simpleMessage("عنوان الشحن"),
         "shpngndpymnt": MessageLookupByLibrary.simpleMessage("الشحن و الدفع"),
-        "shpngschdl":
-            MessageLookupByLibrary.simpleMessage("تاريخ الطلب"),
+        "shpngschdl": MessageLookupByLibrary.simpleMessage("تاريخ الطلب"),
         "signUp": MessageLookupByLibrary.simpleMessage("سجل الأن "),
         "skip": MessageLookupByLibrary.simpleMessage("تخطي"),
         "skipiwluldltr": MessageLookupByLibrary.simpleMessage(
@@ -250,16 +257,19 @@ class MessageLookup extends MessageLookupByLibrary {
         "srvc": MessageLookupByLibrary.simpleMessage("خدمة"),
         "srvctgrs": MessageLookupByLibrary.simpleMessage("خدماتنا"),
         "status": MessageLookupByLibrary.simpleMessage("الحالة"),
-    "dproduct": MessageLookupByLibrary.simpleMessage("تفاصيل المنتج "),
+        "dproduct": MessageLookupByLibrary.simpleMessage("تفاصيل المنتج "),
         "surewnttocnclordr": MessageLookupByLibrary.simpleMessage(
           "هل انت متأكد\nهل تريد الالغاء؟",
         ),
-    "bestOffer": MessageLookupByLibrary.simpleMessage("افضل العروض "),
-
-  "ChangePassword": MessageLookupByLibrary.simpleMessage("تغيير كلمه المرور"),
-  "current_password": MessageLookupByLibrary.simpleMessage("كلمه المرور الحاليه"),
-  "New Password": MessageLookupByLibrary.simpleMessage("كلمه المرور الجديده"),
-  "Confirm Password": MessageLookupByLibrary.simpleMessage("تأكيد كلمه المرور"),
+        "bestOffer": MessageLookupByLibrary.simpleMessage("افضل العروض "),
+        "ChangePassword":
+            MessageLookupByLibrary.simpleMessage("تغيير كلمه المرور"),
+        "current_password":
+            MessageLookupByLibrary.simpleMessage("كلمه المرور الحاليه"),
+        "New Password":
+            MessageLookupByLibrary.simpleMessage("كلمه المرور الجديده"),
+        "Confirm Password":
+            MessageLookupByLibrary.simpleMessage("تأكيد كلمه المرور"),
         "termsAndConditions":
             MessageLookupByLibrary.simpleMessage("الشروط والاحكام"),
         "trmsofsrvc": MessageLookupByLibrary.simpleMessage("شروط الخدمة"),
@@ -300,7 +310,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "yourntsignedin": MessageLookupByLibrary.simpleMessage(
           "لم تقم بتسجيل الدخول!\nبرجاء تسجيل الدخول للمتابعة",
         ),
-    "language": MessageLookupByLibrary.simpleMessage("اللغه"),
-    "orders": MessageLookupByLibrary.simpleMessage("الطلبات"),
+        "language": MessageLookupByLibrary.simpleMessage("اللغه"),
+        "orders": MessageLookupByLibrary.simpleMessage("الطلبات"),
+        "subPackage": MessageLookupByLibrary.simpleMessage("اشتراك الخطط"),
       };
 }

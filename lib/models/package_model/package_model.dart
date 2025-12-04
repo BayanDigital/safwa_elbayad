@@ -1,20 +1,71 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class Package {
-  final String name;
-  final String desc;
-  final String price;
+  final int? id;
+  final String? name;
+  final String? desc;
+  final String? price;
+  Package({
+    this.id,
+    this.name,
+    this.desc,
+    this.price,
+  });
 
-  Package({required this.name, required this.desc, required this.price});
-
-  factory Package.fromJson(Map<String, dynamic> json) {
+  Package copyWith({
+    int? id,
+    String? name,
+    String? desc,
+    String? price,
+  }) {
     return Package(
-      name: json['name'] as String,
-      desc: json['desc'] as String,
-      price: json['price'].toString(),
+      id: id ?? this.id,
+      name: name ?? this.name,
+      desc: desc ?? this.desc,
+      price: price ?? this.price,
     );
   }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'desc': desc,
+      'price': price,
+    };
+  }
+
+  factory Package.fromJson(Map<String, dynamic> map) {
+    return Package(
+      id: map['id'] as int?,
+      name: map['name'].toString(),
+      desc: map['desc'].toString(),
+      price: map['price'].toString(),
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  @override
+  String toString() => 'Package(name: $name, desc: $desc, price: $price)';
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is Package &&
+        other.id == id &&
+        other.name == name &&
+        other.desc == desc &&
+        other.price == price;
+  }
+
+  @override
+  int get hashCode =>
+      name.hashCode ^ desc.hashCode ^ price.hashCode ^ id.hashCode;
 }
 
 class PackageService {
@@ -22,9 +73,10 @@ class PackageService {
 
   Future<List<Package>> fetchPackages() async {
     final response = await _dio.get('https://safwa.yoofiy.com/api/packages');
-
+    print(response.data);
     if (response.statusCode == 200) {
-      final List<dynamic> data = response.data['data']['packages'] as List<dynamic>;
+      final List<dynamic> data =
+          response.data['data']['packages'] as List<dynamic>;
       return data
           .map((json) => Package.fromJson(json as Map<String, dynamic>))
           .toList();

@@ -139,6 +139,14 @@ class S {
       args: [],
     );
   }
+  String get subPackage {
+    return Intl.message(
+      'subPackage',
+      name: 'subPackage',
+      desc: '',
+      args: [],
+    );
+  }
 
   /// `Email`
   String get email {

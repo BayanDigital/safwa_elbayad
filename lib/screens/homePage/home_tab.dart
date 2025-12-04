@@ -17,6 +17,7 @@ import 'package:laundry_customer/providers/settings_provider.dart';
 import 'package:laundry_customer/screens/cart/my_cart_tab.dart';
 
 import 'package:laundry_customer/screens/homePage/sub_category.dart';
+import 'package:laundry_customer/screens/packages/subscribe_screen.dart';
 import 'package:laundry_customer/utils/context_less_nav.dart';
 import 'package:laundry_customer/utils/routes.dart';
 import 'package:laundry_customer/widgets/buttons/full_width_button.dart';
@@ -330,7 +331,7 @@ class _HomeTabState extends ConsumerState<HomeTab> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                pkg.name,
+                                                pkg.name??'',
                                                 style: AppTextDecor
                                                     .osBold20Black
                                                     .copyWith(
@@ -342,7 +343,7 @@ class _HomeTabState extends ConsumerState<HomeTab> {
                                               ),
                                               const SizedBox(height: 8),
                                               Text(
-                                                pkg.desc,
+                                                pkg.desc??'',
                                                 textAlign: TextAlign.center,
                                                 style: AppTextDecor
                                                     .osBold20Black
@@ -396,7 +397,17 @@ class _HomeTabState extends ConsumerState<HomeTab> {
                                                           S.of(context).subNow,
                                                       titleColor:
                                                           AppColors.white,
-                                                      onTap: () {}),
+                                                      onTap: () {
+                                                        Navigator.of(context)
+                                                            .push(
+                                                          MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                SubscribeScreen(
+                                                              package: pkg,
+                                                            ),
+                                                          ),
+                                                        );
+                                                      }),
                                                 ],
                                               ),
                                             ],

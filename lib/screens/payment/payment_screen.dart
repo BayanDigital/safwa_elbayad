@@ -246,6 +246,42 @@ class _CheckOutScreenState extends ConsumerState<CheckOutScreen> {
                             ],
                           ),
                         ),
+   Container(
+                          width: 375.w,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 20.w,
+                            vertical: 15.h,
+                          ),
+
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                S.of(context).shpngschdl,
+                                style: AppTextDecor.osSemiBold18black.copyWith(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w800,
+                                  color: AppColors.primary
+                                ),
+                              ),
+                              AppSpacerH(10.h),
+                              Column(
+                                children: [
+                                  ShedulePicker(
+                                    image: 'assets/images/pickup-car.png',
+                                    title: S.of(context).pickupat,
+                                  ),
+                                  AppSpacerH(20.h),
+                                  ShedulePicker(
+                                    image: 'assets/images/pick-up-truck.png',
+                                    title: S.of(context).dlvryat,
+                                  ),
+                                ],
+                              ),
+
+                            ],
+                          ),
+                        ),
 
                         Container(
                           width: 375.w,

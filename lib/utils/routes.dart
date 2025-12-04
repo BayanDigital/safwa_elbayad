@@ -32,7 +32,7 @@ import 'package:laundry_customer/screens/order/order_details_page.dart';
 import 'package:laundry_customer/screens/order/schedule_picker.dart';
 import 'package:laundry_customer/screens/other/about_us.dart';
 import 'package:laundry_customer/screens/other/contact_us.dart';
-import 'package:laundry_customer/screens/other/package.dart';
+import 'package:laundry_customer/screens/packages/package.dart';
 import 'package:laundry_customer/screens/other/privacy_policy.dart';
 import 'package:laundry_customer/screens/other/terms_of_service.dart';
 import 'package:laundry_customer/screens/payment/add_card_screen.dart';
