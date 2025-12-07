@@ -2,23 +2,25 @@ import 'dart:convert';
 
 import 'package:laundry_customer/models/package_model/data.dart';
 
- 
 class AddPackageModel {
   String? message;
-  Data? data;
+  dynamic data;
+  Data? subscription;
 
-  AddPackageModel({this.message, this.data});
+  AddPackageModel({this.message, this.data, this.subscription});
 
   factory AddPackageModel.fromMap(Map<String, dynamic> data) => AddPackageModel(
         message: data['msg'] as String?,
-        data: data['data'] == null
+        data: data['data'],
+        subscription: data['subscription'] == null
             ? null
-            : Data.fromMap(data['data'] as Map<String, dynamic>),
+            : Data.fromMap(data['subscription'] as Map<String, dynamic>),
       );
 
   Map<String, dynamic> toMap() => {
         'message': message,
-        'data': data?.toMap(),
+        'subscription': subscription?.toMap(),
+        'data': data,
       };
 
   /// `dart:convert`

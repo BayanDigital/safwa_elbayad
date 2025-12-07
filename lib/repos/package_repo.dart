@@ -24,7 +24,7 @@ class PackageRepo implements IPackageRepo {
     if (status != '') {
       qp = {'status': status};
     }
-    final Response response = await _dio.get('/orders', queryParameters: qp);
+    final Response response = await _dio.get('/packages', queryParameters: qp);
     return AllPackagesModel.fromMap(response.data as Map<String, dynamic>);
   }
 

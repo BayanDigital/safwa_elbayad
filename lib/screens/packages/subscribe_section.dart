@@ -263,7 +263,7 @@ class _SubscribeSectionState extends ConsumerState<SubscribeSection> {
                             context.nav.pushNamedAndRemoveUntil(
                               Routes.orderSuccessScreen,
                               arguments: {
-                                'id': _.data.data!.package!.id,
+                                'id': widget.package.name,
                                 'amount': amount,
                                 'isCOD': widget.selectedPaymentType ==
                                     PaymentType.cod,
