@@ -49,29 +49,7 @@ class _SubscribeSectionState extends ConsumerState<SubscribeSection> {
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder(
-      valueListenable: Hive.box(AppHSC.cartBox).listenable(),
-      builder: (
-        BuildContext context,
-        Box cartBox,
-        Widget? child,
-      ) {
-        final List<CarItemHiveModel> cartItems = [];
-        for (var i = 0; i < cartBox.length; i++) {
-          final Map<String, dynamic> processedData = {};
-          final Map<dynamic, dynamic> unprocessedData =
-              cartBox.getAt(i) as Map<dynamic, dynamic>;
-
-          unprocessedData.forEach((key, value) {
-            processedData[key.toString()] = value;
-          });
-
-          cartItems.add(
-            CarItemHiveModel.fromMap(
-              processedData,
-            ),
-          );
-        }
+   
         return Container(
           width: 375.w,
           padding: EdgeInsets.symmetric(
@@ -235,7 +213,6 @@ class _SubscribeSectionState extends ConsumerState<SubscribeSection> {
                           //   S.of(context).ordrplcd,
                           // );
 
-                          await cartBox.clear();
                           ref.refresh(placePackagesProvider);
                           ref
                               .watch(
@@ -289,7 +266,7 @@ class _SubscribeSectionState extends ConsumerState<SubscribeSection> {
                                 context.nav.pushNamedAndRemoveUntil(
                                   Routes.orderSuccessScreen,
                                   arguments: {
-                                    'id': _.data.data!.package!.id,
+                                    'id': widget.package.name,
                                     'amount': amount,
                                     'isCOD': widget.selectedPaymentType ==
                                         PaymentType.cod,
@@ -301,7 +278,7 @@ class _SubscribeSectionState extends ConsumerState<SubscribeSection> {
                                 context.nav.pushNamedAndRemoveUntil(
                                   Routes.orderSuccessScreen,
                                   arguments: {
-                                    'id': _.data.data!.package!.id,
+                                    'id': widget.package.name,
                                     'amount': amount,
                                     'isCOD': widget.selectedPaymentType ==
                                         PaymentType.cod,
@@ -334,7 +311,6 @@ class _SubscribeSectionState extends ConsumerState<SubscribeSection> {
             ),
           ),
         );
-      },
-    );
+      
   }
 }

@@ -355,7 +355,13 @@ class _HomeTabState extends ConsumerState<HomeTab> {
                                                             .secondaryColor),
                                               ),
                                               const SizedBox(height: 8),
-                                              Text(
+                                               
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .start,
+                                                children: [
+                                                  Text(
                                                 S.of(context).price,
                                                 style: AppTextDecor
                                                     .osBold20Black
@@ -365,13 +371,7 @@ class _HomeTabState extends ConsumerState<HomeTab> {
                                                         fontSize: 14,
                                                         color: AppColors
                                                             .textColor),
-                                              ),
-                                              const SizedBox(height: 8),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
+                                              ), AppSpacerW(5.w),
                                                   Text(
                                                     '${pkg.price} ر.س',
                                                     style: AppTextDecor
@@ -383,7 +383,10 @@ class _HomeTabState extends ConsumerState<HomeTab> {
                                                             color: AppColors
                                                                 .primary),
                                                   ),
-                                                  AppSpacerW(2.w),
+                                                
+                                                ],
+                                              ),  const SizedBox(height: 12),
+                                                AppSpacerW(2.w),
                                                   AppTextButton(
                                                       borderColor: const Color(
                                                           0xFF87CEEB),
@@ -408,8 +411,6 @@ class _HomeTabState extends ConsumerState<HomeTab> {
                                                           ),
                                                         );
                                                       }),
-                                                ],
-                                              ),
                                             ],
                                           ),
                                         ),

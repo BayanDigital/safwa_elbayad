@@ -183,6 +183,9 @@ class ChooseItems extends ConsumerWidget {
                       Box cartBox,
                       Widget? child,
                     ) {
+                      if (cartBox.isEmpty) {
+                        return const SizedBox();
+                      }
                       final List<CarItemHiveModel> cartItems = [];
                       for (var i = 0; i < cartBox.length; i++) {
                         final Map<String, dynamic> processedData = {};
@@ -238,7 +241,7 @@ class ChooseItems extends ConsumerWidget {
                                 if (AppGFunctions.calculateTotal(
                                       cartItems,
                                     ).toInt() <
-                                    free!) ...[
+                                    (free??0)) ...[
                                   /*Text(
                                     'Delivery Charge is $dlvrychrg',
                                     style: AppTextDecor.osRegular14black,
@@ -254,7 +257,7 @@ class ChooseItems extends ConsumerWidget {
                             Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                if (calculateTotal(cartItems) < minimum!)
+                                if (calculateTotal(cartItems) < (minimum??0))
                                   Text(
                                     '${S.of(context).mnmmordramnt} ${appSettingsBox.get('currency') ?? '\$'}${AppGFunctions.convertToFixedTwo(minimum!)}',
                                     style: AppTextDecor.osRegular12red,

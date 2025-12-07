@@ -60,7 +60,7 @@ class CustomTile extends StatelessWidget {
                     // AppSpacerW(5.w)
                   ],
                 ),
-                const Divider(color: Color(0xFFB2C5E2),)
+                const Divider(color: Color(0xFFB2C5E2),height: 2,)
               ],
             ),
           ),
@@ -124,7 +124,7 @@ class CustomTile2 extends StatelessWidget {
                   // AppSpacerW(5.w)
                 ],
               ),
-              const Divider(color: Color(0xFFB2C5E2),)
+              const Divider(color: Color(0xFFB2C5E2),height: 2,)
             ],
           ),
         ),
