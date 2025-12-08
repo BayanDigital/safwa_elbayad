@@ -42,6 +42,7 @@ class MyCartTab extends ConsumerWidget {
     final selectedLocal = appSettingsBox.get(AppHSC.appLocal);
     ref.watch(settingsProvider).whenOrNull(
       loaded: (data) {
+        print("eeeeeeeeeee ${data.toJson()}");
         final String total = (AppGFunctions.calculateTotal(
                   cartItems,
                 ) +
@@ -112,6 +113,8 @@ class MyCartTab extends ConsumerWidget {
                                 Box cartBox,
                                 Widget? child,
                               ) {
+                                if (cartBox.isEmpty) return const SizedBox();
+
                                 final List<CarItemHiveModel> cartItems = [];
                                 for (var i = 0; i < cartBox.length; i++) {
                                   final Map<String, dynamic> processedData = {};
@@ -232,7 +235,7 @@ class MyCartTab extends ConsumerWidget {
                                                             .of(context)
                                                             .dlvrychrg,
                                                         data:
-                                                            '${appSettingsBox.get('currency') ?? '\$'}${dlvrychrg!.toStringAsFixed(2)}',
+                                                            '${appSettingsBox.get('currency') ?? '\$'}${dlvrychrg?.toStringAsFixed(2)}',
                                                       ),
                                                     ],
                                                   ),
@@ -269,7 +272,7 @@ class MyCartTab extends ConsumerWidget {
                                                         horizontal: 12.0,
                                                         vertical: 8),
                                                     child: Text(
-                                                      '${appSettingsBox.get('currency') ?? '\$'}${(AppGFunctions.calculateTotal(cartItems) + dlvrychrg! - ref.watch(discountAmountProvider)).toStringAsFixed(2)}',
+                                                      '${appSettingsBox.get('currency') ?? '\$'}${(AppGFunctions.calculateTotal(cartItems) + (dlvrychrg??0) - ref.watch(discountAmountProvider)).toStringAsFixed(2)}',
                                                       style: AppTextDecor
                                                           .osBold14black
                                                           .copyWith(
@@ -308,7 +311,7 @@ class MyCartTab extends ConsumerWidget {
                                                                   cartItems) <
                                                               200)
                                                             Text(
-                                                              '${S.of(context).mnmmordramnt} ${appSettingsBox.get('currency') ?? '\$'}${AppGFunctions.convertToFixedTwo(minimum!)}',
+                                                              '${S.of(context).mnmmordramnt} ${appSettingsBox.get('currency') ?? '\$'}${AppGFunctions.convertToFixedTwo(minimum??0)}',
                                                               style: AppTextDecor
                                                                   .osRegular12red,
                                                             ),
@@ -362,7 +365,7 @@ class MyCartTab extends ConsumerWidget {
                                                                                             return AlertDialog(
                                                                                               title: const Text('تنبيه'),
                                                                                               content: Text(
-                                                                                                '${S.of(context).mnmmordramnt} ${appSettingsBox.get('currency') ?? '\$'}${AppGFunctions.convertToFixedTwo(minimum!)}',
+                                                                                                '${S.of(context).mnmmordramnt} ${appSettingsBox.get('currency') ?? '\$'}${AppGFunctions.convertToFixedTwo(minimum??0)}',
                                                                                               ),
                                                                                               actions: [
                                                                                                 TextButton(

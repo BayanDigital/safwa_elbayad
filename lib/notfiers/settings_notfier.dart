@@ -20,10 +20,9 @@ class MasterDataNotifier extends StateNotifier<ApiState<MasterModel>> {
     final Box settingsBox = Hive.box(AppHSC.appSettingsBox);
     try {
       final MasterModel data = await repo.getMasterData();
-
-      settingsBox.putAll(data.data!.toMap());
+       settingsBox.putAll(data.data!.toMap());
       debugPrint("master data is ${data.toJson()}");
-
+ 
       state = ApiState.loaded(
         data: data,
       );

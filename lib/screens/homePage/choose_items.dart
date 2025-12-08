@@ -259,7 +259,7 @@ class ChooseItems extends ConsumerWidget {
                               children: [
                                 if (calculateTotal(cartItems) < (minimum??0))
                                   Text(
-                                    '${S.of(context).mnmmordramnt} ${appSettingsBox.get('currency') ?? '\$'}${AppGFunctions.convertToFixedTwo(minimum!)}',
+                                    '${S.of(context).mnmmordramnt} ${appSettingsBox.get('currency') ?? '\$'}${AppGFunctions.convertToFixedTwo(minimum??0)}',
                                     style: AppTextDecor.osRegular12red,
                                   ),
                                 AppSpacerH(5.h),
@@ -300,7 +300,7 @@ class ChooseItems extends ConsumerWidget {
                                               null &&
                                           authBox.get(AppHSC.authToken) != '') {
                                         if (calculateTotal(cartItems) >=
-                                            minimum!) {
+                                            (minimum??0)) {
                                           ref.refresh(
                                             addresListProvider,
                                           );
@@ -309,7 +309,7 @@ class ChooseItems extends ConsumerWidget {
                                           );
                                         } else {
                                           EasyLoading.showError(
-                                            '${S.of(context).mnmmordramnt} ${appSettingsBox.get('currency') ?? '\$'}${AppGFunctions.convertToFixedTwo(minimum!)}',
+                                            '${S.of(context).mnmmordramnt} ${appSettingsBox.get('currency') ?? '\$'}${AppGFunctions.convertToFixedTwo(minimum??0)}',
                                           );
                                         }
                                       } else {
