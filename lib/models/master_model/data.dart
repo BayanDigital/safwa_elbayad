@@ -26,9 +26,9 @@ class Data {
 
   factory Data.fromMap(Map<String, dynamic> data) => Data(
         currency: data['currency'] as String?,
-        deliveryCost: data['delivery_cost'] as int?,
-        feeCost: data['fee_cost'] as int?,
-        minimumCost: data['minimum_cost'] as int?,
+        deliveryCost: data['delivery_cost']!=null?int.parse(double.parse(data['delivery_cost'].toString()).toStringAsFixed(0)):null,
+        feeCost: data['fee_cost'] !=null? int.parse(double.parse(data['fee_cost'].toString()).toStringAsFixed(0)):null,
+        minimumCost: data['minimum_cost'] !=null? int.parse(double.parse(data['minimum_cost'].toString()).toStringAsFixed(0)):null ,
         postCode: data['post_code'] as List<dynamic>,
         androidUrl: data['android_url'] as String?,
         iosUrl: data['ios_url'] as String?,
